@@ -59,4 +59,140 @@ public class ClienteDAO_JDBC {
         }
         return clientes;
     }
+
+    // Método para buscar un cliente
+    public Cliente encontrar(Cliente cliente) {
+
+        // Declarando los objetos
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Ejecutando la sentencia SQL de tipo SELECT_BY_ID
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_SELECT_BY_ID);
+            stmt.setInt(1, cliente.getIdCliente()); // Seteando el parámetro de la consulta preparada
+            rs = stmt.executeQuery();
+            rs.absolute(1); // Posicionandonos en el primer registro encontrado
+
+            // Recuperando los campos
+            String nombre = rs.getString("nombre");
+            String apellido = rs.getString("apellido");
+            String email = rs.getString("email");
+            String telefono = rs.getString("telefono");
+            double saldo = rs.getDouble("saldo");
+
+            // Setenado los campos al cliente (Creando un nuevo cliente)
+            cliente.setNombre(nombre);
+            cliente.setApellido(apellido);
+            cliente.setEmail(email);
+            cliente.setTelefono(telefono);
+            cliente.setSaldo(saldo);
+
+        } catch (SQLException ex) {
+            System.err.println("Error al encontrar cliente " + ex.getMessage());
+        } finally {
+            // Cerrando los objetos
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(con);
+        }
+        return cliente;
+    }
+
+    // Método para insertar un cliente a la base de datos
+    public int insertar(Cliente cliente) {
+
+        // Declarando los objetos
+        Connection con = null;
+        PreparedStatement stmt = null;
+        int rows = 0;
+
+        try {
+            // Ejecutando la sentencia SQL de tipo INSERT
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_INSERT);
+
+            // Seteando los parámetros a la consulta preparada
+            stmt.setString(1, cliente.getNombre());
+            stmt.setString(2, cliente.getApellido());
+            stmt.setString(3, cliente.getEmail());
+            stmt.setString(4, cliente.getTelefono());
+            stmt.setDouble(5, cliente.getSaldo());
+
+            // Ejecutando la sentencia SQL_INSERT
+            rows = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println("Error al insertar cliente " + ex.getMessage());
+        } finally {
+            // Cerrando los objetos
+            Conexion.close(stmt);
+            Conexion.close(con);
+        }
+        return rows;
+    }
+
+    // Método pata actualizar un cliente en la base de datos
+    public int actualizar(Cliente cliente) {
+
+        // Declarando los objetos
+        Connection con = null;
+        PreparedStatement stmt = null;
+        int rows = 0;
+
+        try {
+            // Ejecutando la sentencia SQL de tipo UPDATE
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_UPDATE);
+
+            // Seteando los parámetros a la consulta preparada
+            stmt.setString(1, cliente.getNombre());
+            stmt.setString(2, cliente.getApellido());
+            stmt.setString(3, cliente.getEmail());
+            stmt.setString(4, cliente.getTelefono());
+            stmt.setDouble(5, cliente.getSaldo());
+            stmt.setInt(6, cliente.getIdCliente());
+
+            // Ejecutando la sentencia SQL_UPDATE
+            rows = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println("Error al actualizar cliente " + ex.getMessage());
+        } finally {
+            // Cerrando los objetos
+            Conexion.close(stmt);
+            Conexion.close(con);
+        }
+        return rows;
+    }
+
+    // Método para eliminar un cliente
+    public int eliminar(Cliente cliente) {
+        // Declarando los objetos
+        Connection con = null;
+        PreparedStatement stmt = null;
+        int rows = 0;
+
+        try {
+            // Ejecutando la sentencia SQL de tipo DELETE
+            con = Conexion.getConnection();
+            stmt = con.prepareStatement(SQL_DELETE);
+
+            // Seteando los parámetros a la consulta preparada
+            stmt.setInt(1, cliente.getIdCliente());
+
+            // Ejecutando la sentencia SQL_DELETE
+            rows = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println("Error al eliminar cliente " + ex.getMessage());
+        } finally {
+            // Cerrando los objetos
+            Conexion.close(stmt);
+            Conexion.close(con);
+        }
+        return rows;
+    }
 }

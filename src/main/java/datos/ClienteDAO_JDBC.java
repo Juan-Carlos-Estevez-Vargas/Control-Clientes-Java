@@ -2,12 +2,8 @@ package datos;
 
 // Importando librerías
 import dominio.Cliente;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 public class ClienteDAO_JDBC {
 
@@ -37,7 +33,7 @@ public class ClienteDAO_JDBC {
             // Iterando los clientes de la base de datos
             while (rs.next()) {
                 // Recuperando los campos
-                int id_cliente = rs.getInt("id_cliente");
+                int idCliente = rs.getInt("id_cliente");
                 String nombre = rs.getString("nombre");
                 String apellido = rs.getString("apellido");
                 String email = rs.getString("email");
@@ -45,7 +41,7 @@ public class ClienteDAO_JDBC {
                 double saldo = rs.getDouble("saldo");
 
                 // Creando un nuevo cliente
-                cliente = new Cliente(id_cliente, nombre, apellido, email, telefono, saldo);
+                cliente = new Cliente(idCliente, nombre, apellido, email, telefono, saldo);
                 // Añadiendo cliente a la lista de clientes
                 clientes.add(cliente);
             }

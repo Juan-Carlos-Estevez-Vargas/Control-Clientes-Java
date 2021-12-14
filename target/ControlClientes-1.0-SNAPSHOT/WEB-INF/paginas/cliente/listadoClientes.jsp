@@ -50,7 +50,7 @@
                 </div>
                 <div class="card text-center bg-success text-white mb-3">
                     <div class="card-body">
-                        <h3>Saldo Clientes</h3>
+                        <h3>Total Clientes</h3>
                         <h4 class="display-4">
                             <i class="fas fa-users"></i> ${totalClientes}
                         </h4>
@@ -61,3 +61,5 @@
     </div>
 </section>
 
+<!-- Agregar Cliente Modal -->
+<jsp:include page="agregarCliente.jsp" />

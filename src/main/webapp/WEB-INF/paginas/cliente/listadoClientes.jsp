@@ -21,9 +21,10 @@
                         </thead>
                         <tbody>
                             <!<!-- Iterando cada elemento de la lista de clientes -->
-                            <c:forEach var="cliente" items="${clientes}">
-                                <tr>
-                                    <td>${cliente.idCliente}</td>
+                            <c:forEach var="cliente" items="${clientes}" varStatus="status">
+                                <tr> 
+                                    <!-- Valor auto-incrementable -->
+                                    <td>${status.count}</td>
                                     <td>${cliente.nombre} ${cliente.apellido}</td>
 
                                     <!-- Formateando a moneda el campo saldo -->

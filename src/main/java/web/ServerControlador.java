@@ -39,6 +39,9 @@ public class ServerControlador extends HttpServlet {
                 case "insertar":
                     this.insertarCliente(request, response);
                     break;
+                case "modificar":
+                    this.modificarCliente(request, response);
+                    break;
                 default:
                     this.accionDefalult(request, response);
             }
@@ -66,6 +69,31 @@ public class ServerControlador extends HttpServlet {
 
         // Insertando el cliente en la base de datos
         int registrosModificados = new ClienteDAO_JDBC().insertar(cliente);
+        System.out.println("Registros Modificados = " + registrosModificados);
+
+        // Redirigiendo a la accion por default (listado actualizado de clientes)
+        this.accionDefalult(request, response);
+    }
+
+    private void modificarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Recuperando los valores del formulario agregarCliente.jsp
+        int idCliente = Integer.parseInt(request.getParameter("idCliente"));
+        String nombre = request.getParameter("nombre");
+        String apellido = request.getParameter("apellido");
+        String email = request.getParameter("email");
+        String telefono = request.getParameter("telefono");
+        double saldo = 0;
+        String saldoString = request.getParameter("saldo");
+
+        if (saldoString != null && !"".equals(saldoString)) {
+            saldo = Double.parseDouble(saldoString);
+        }
+
+        // Creando el objeto cliente (modelo)
+        Cliente cliente = new Cliente(idCliente, nombre, apellido, email, telefono, saldo);
+
+        // Modificando el cliente en la base de datos
+        int registrosModificados = new ClienteDAO_JDBC().actualizar(cliente);
         System.out.println("Registros Modificados = " + registrosModificados);
 
         // Redirigiendo a la accion por default (listado actualizado de clientes)
